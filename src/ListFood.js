@@ -1,16 +1,54 @@
+import { useState } from "react";
 import FoodItem from "./FoodItem";
 
 export const ListFood = () => {
+    const [initialFood, setInitialFood] =useState('');
+    const [foods, setFoods] = useState([
+        {
+            id : Math.random(),
+            namaMakanan : "Tempe",
+            harga: "5000"
+        },
+        {
+            id : Math.random(),
+            namaMakanan : "Tahu",
+            harga: "1000"
+        },
+        {
+            id : Math.random(),
+            namaMakanan : "Sambal Kacang",
+            harga: "3000"
+        },
+        {
+            id : Math.random(),
+            namaMakanan : "Susu Kedelai",
+            harga: "4000"
+        }
+    ])
+
+    function addFoods(e) {
+        setInitialFood(e.target.value)
+    }
     return (
       <div>
-        {/* <div className="food-item">
-          <h2>Tahu</h2>
-          <p>Rp. 3000</p>
-        </div> */}
-        <FoodItem harga="5000">Tempe</FoodItem>
-        <FoodItem harga="1000">Tahu</FoodItem>
-        <FoodItem harga="3000">Sambal Kacang</FoodItem>
-        <FoodItem harga="5000">Susu Kedelai</FoodItem>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            setFoods([
+                ...foods, 
+                {
+                    id: Math.random(), 
+                    namaMakanan: initialFood, 
+                    harga:"10000"
+                }
+            ])
+            setInitialFood('');
+        }}
+        >
+            <input value={initialFood} type="text" onChange={addFoods}/>
+        </form>
+        {
+            foods.map(food => <FoodItem key={food.id} harga={food.harga}>{food.namaMakanan}</FoodItem>)
+        }
       </div>
     )
   }
